@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "cesium": "^1.126.0",
+    "satellite.js": "^5.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.1.1",
+    "vite-plugin-cesium": "^1.2.23"
+  },
+  "scripts": {
+    "dev": "vite"
+  }
+}
