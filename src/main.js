@@ -2,7 +2,7 @@ import * as Cesium from "cesium";
 import * as satellite from "satellite.js";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import getTLEData from "./data/getTLEData.js";
-// import loadModel from "./data/loadModel.js";
+import loadModel from "./data/loadModel.js";
 
 Cesium.Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjY4OGE0MS0xMmYxLTQwY2YtYTg4OC1kNDUxZmIyODU0NTYiLCJpZCI6Mjc4MzY3LCJpYXQiOjE3NDAzMDE3NzB9._w_PncfjQM56FZ69RBqUTHRu7iM4Iz7xU93cZjuRM_w";
@@ -11,7 +11,7 @@ const viewer = new Cesium.Viewer("cesiumContainer", {
   terrainProvider: await Cesium.createWorldTerrainAsync(),
 });
 // разнести по функциям
-// Создать абстракцию типа Data gateway (отдельная функция, которая вам выдает данные для визуализации)
+// Создать абстракцию типа Data gateway ы(отдельная функция, которая вам выдает данные для визуализации)
 viewer.scene.globe.enableLighting = true;
 
 const tleData = await getTLEData();
@@ -59,39 +59,4 @@ for (let i = 0; i < totalSeconds; i += timestepInSeconds) {
   positionsOverTime.addSample(time, position);
 }
 
-// const satEntity = viewer.entities.add({
-//   name: 'MKS(ISS)',
-//   position: positionsOverTime,
-//   point: {
-//   pixelSize: 10,
-//   color: Cesium.Color.RED
-//   },
-//   label: {
-//   text: "satellite",
-//   font: "20px sans-serif",
-//   verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-//   pixelOffset: new Cesium.Cartesian2(0, -10),
-//  },
-// })
-
-async function loadModel() {
-  const satelliteUri = await Cesium.IonResource.fromAssetId(3159015); // Cделать в качестве передаваемого параметра (Проверить возможность импорта моделей в разных форматах)
-
-  const satelliteEntity = viewer.entities.add({
-   
-    availability: new Cesium.TimeIntervalCollection([
-      new Cesium.TimeInterval({ start: start, stop: stop }),
-    ]),
-    position: positionsOverTime,
-    model: { uri: satelliteUri, scale: 10000 }, // Attach the 3D model instead of the green point.
-    orientation: new Cesium.VelocityOrientationProperty(positionsOverTime), // Automatically compute the orientation from the position.
-    path: new Cesium.PathGraphics({ width: 1 }),
-  });
-
-  viewer.trackedEntity = satelliteEntity;
-}
-
-loadModel()
-
-
-// viewer.trackedEntity = satellitePoint;
+await loadModel(viewer, start, stop, positionsOverTime)
