@@ -3,7 +3,6 @@ import { CallbackProperty } from "cesium";
 import { JulianDate } from "cesium";
 import { Quaternion } from "cesium";
 import { Cartesian3 } from "cesium";
-import Satellite from "./Satellite";
 
 export default class SatelliteTracker {
     constructor(cesiumToken, containerId) {
@@ -47,12 +46,16 @@ export default class SatelliteTracker {
             path: new Cesium.PathGraphics({ width: 1 }),
         });
 
-        this.entities.set(satellite.satelliteURI, satelliteEntity)
+        const areaEntity = this.createAreaUnderSatellite(position);
+        this.entities.set(satellite.satelliteURI, {
+            satellite: satelliteEntity, 
+            area: areaEntity
+        })
         this.setSatelliteRotation(satelliteEntity, start)
     }
 
     createAreaUnderSatellite(position) {
-        this.viewer.entities.add({
+        const area = this.viewer.entities.add({
             position: position,
             name: "Red ellipse on surface",
             ellipse: {
@@ -60,7 +63,10 @@ export default class SatelliteTracker {
                 semiMajorAxis: 400000.0,
                 material: Cesium.Color.RED.withAlpha(0.5),
             },
+            show: true,
         });
+
+        return area
     }
 
     setSatelliteRotation(entity, start, rpm = 10) {
@@ -89,14 +95,15 @@ export default class SatelliteTracker {
         })
     }
 
-    // Метод для получения entity по ID
     getEntityById(satelliteId) {
         return this.entities.get(satelliteId);
     }
 
-    // Метод для скрытия/показа
-    toggleEntityVisibility(satelliteId, isVisible) {
-        const entity = this.getEntityById(satelliteId);
-        if (entity) entity.show = isVisible;
+    toggleEntityVisibility(satelliteURI, isVisible) {
+        const entity = this.getEntityById(satelliteURI);
+        if (entity) {
+            entity.satellite.show = isVisible
+            entity.area.show = isVisible
+        }
     }
 }

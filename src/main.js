@@ -24,18 +24,15 @@ await tracker.init();
 tracker.setupClock(start, stop);
 
 const satellite = new Satellite(URIsatellite);
-await satellite.parseTLEData();
 const satellite2 = new Satellite(URIsatellite2, 49260)
+await satellite.parseTLEData();
 await satellite2.parseTLEData();
 
 const newYork = new City('New York', -74.0060, 40.7128)
 const minsk = new City('Minsk', 27.5674, 53.8930)
 
 await tracker.addSatellite(satellite, start, stop, satellite.calculatePositionOverTime(totalSeconds, timestepInSeconds, start));
-tracker.createAreaUnderSatellite(satellite.calculatePositionOverTime(totalSeconds, timestepInSeconds, start));
-
 await tracker.addSatellite(satellite2 ,start, stop, satellite2.calculatePositionOverTime(totalSeconds, timestepInSeconds, start));
-tracker.createAreaUnderSatellite(satellite2.calculatePositionOverTime(totalSeconds, timestepInSeconds, start));
 tracker.addCity(newYork)
 tracker.addCity(minsk)
 
