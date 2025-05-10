@@ -1,7 +1,7 @@
 const satellitesInfo = [
-  {id: '0', name: 'zarya', added: false},
-  {id: '1', name: 'landsat9', added: false},
-  {id: '2', name: 'nauka', added: false}
+  {name: 'zarya', id: 25544, added: false},
+  {name: 'landsat9', id: 49260, added: false},
+  {name: 'nauka', id: 49044, added: false}
 ]
 
 export default satellitesInfo

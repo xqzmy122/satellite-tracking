@@ -47,7 +47,7 @@ export default class SatelliteTracker {
         });
 
         const areaEntity = this.createAreaUnderSatellite(position);
-        this.entities.set(satellite.satelliteURI, {
+        this.entities.set(satellite.satelliteId, {
             satellite: satelliteEntity, 
             area: areaEntity
         })
@@ -99,8 +99,12 @@ export default class SatelliteTracker {
         return this.entities.get(satelliteId);
     }
 
-    toggleEntityVisibility(satelliteURI, isVisible) {
-        const entity = this.getEntityById(satelliteURI);
+    toggleEntityVisibility(satelliteId, isVisible) {
+        console.log(isVisible)
+        console.log(satelliteId)
+        console.log(this.entities)
+        const entity = this.getEntityById(satelliteId);
+        console.log(entity)
         if (entity) {
             entity.satellite.show = isVisible
             entity.area.show = isVisible

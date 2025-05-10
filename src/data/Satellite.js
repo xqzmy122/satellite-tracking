@@ -8,7 +8,8 @@ export default class Satellite {
     this.satrec = null
     this.satelliteURI = satelliteURI
     this.position = null
-    this.requestLink = `https://tle.ivanstanojevic.me/api/tle/${satelliteId}`
+    this.satelliteId = satelliteId
+    this.requestLink = `https://tle.ivanstanojevic.me/api/tle/${this.satelliteId}`
   }
 
   async getTLEData() {
