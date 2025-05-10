@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cesium + Vite</title>
-    <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
 
-      #cesiumContainer {
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cesium + Vite</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
 
-  <body>
-    <div id="cesiumContainer"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<body>
+  <div id="cesiumContainer">
+    <div class="satellitePanel">
+      <div class="satellitePanel__body">
+        <p>Choose satellite to add/delete</p>
+        <ul class="satellites">
+          <li class="zarya">
+            <span>"ISS (ZARYA)"</span>
+            <button class="add-satellite">+</button>
+          </li>
+          <li class="landsat9">
+            <span>"LANDSAT 9"</span>
+            <button class="add-satellite">+</button>
+          </li>
+          <li class="nauka">
+            <span>"ISS (NAUKA)"</span>
+            <button class="add-satellite">+</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>

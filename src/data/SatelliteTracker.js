@@ -1,17 +1,16 @@
 import * as Cesium from "cesium";
-import Satellite from "./Satellite";
 import { CallbackProperty } from "cesium";
 import { JulianDate } from "cesium";
 import { Quaternion } from "cesium";
 import { Cartesian3 } from "cesium";
+import Satellite from "./Satellite";
 
 export default class SatelliteTracker {
     constructor(cesiumToken, containerId) {
         this.cesiumToken = cesiumToken
         this.containerId = containerId
         this.viewer = null
-        this.entities = null
-        this.satellite = null
+        this.entities = new Map()
     }
 
     async init() {
@@ -48,6 +47,7 @@ export default class SatelliteTracker {
             path: new Cesium.PathGraphics({ width: 1 }),
         });
 
+        this.entities.set(satellite.satelliteURI, satelliteEntity)
         this.setSatelliteRotation(satelliteEntity, start)
     }
 
@@ -80,7 +80,23 @@ export default class SatelliteTracker {
                 pixelSize: 10,
                 color: Cesium.Color.RED,
                 outlineWidth: 2,
+            },
+            label: {
+                text: city.name,
+                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                pixelOffset: new Cesium.Cartesian2(0, -15)
             }
         })
+    }
+
+    // Метод для получения entity по ID
+    getEntityById(satelliteId) {
+        return this.entities.get(satelliteId);
+    }
+
+    // Метод для скрытия/показа
+    toggleEntityVisibility(satelliteId, isVisible) {
+        const entity = this.getEntityById(satelliteId);
+        if (entity) entity.show = isVisible;
     }
 }
