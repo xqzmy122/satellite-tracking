@@ -7,8 +7,13 @@ import satellitesInfo from "./data/satellitePanelInfo.js";
 const CESIUM_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjY4OGE0MS0xMmYxLTQwY2YtYTg4OC1kNDUxZmIyODU0NTYiLCJpZCI6Mjc4MzY3LCJpYXQiOjE3NDAzMDE3NzB9._w_PncfjQM56FZ69RBqUTHRu7iM4Iz7xU93cZjuRM_w";
 const URIsatellite = 3159015;
-const URIsatellite2 = 3363411;
+const URILandsat9 = 3363411;
 const satButtons = document.querySelectorAll(".add-satellite");
+
+async function initSatellites(satellite) {
+  await satellite.parseTLEData();
+  await tracker.addSatellite(satellite, start, stop, satellite.calculatePositionOverTime(totalSeconds, timestepInSeconds, start));
+}
 
 const timestepInSeconds = 10;
 const totalSeconds = 60 * 60 * 8;
@@ -24,23 +29,17 @@ await tracker.init();
 
 tracker.setupClock(start, stop);
 
-const satellite = new Satellite(URIsatellite);
-const satellite2 = new Satellite(URIsatellite2, 49260);
-// const satelliteNauka = new Satellite(URIsatellite, 49044)
-await satellite.parseTLEData();
-await satellite2.parseTLEData();
-// await satelliteNauka.parseTLEData()
+const satelliteZarya = new Satellite(URIsatellite);
+const satelliteLandsat9 = new Satellite(URILandsat9, 49260);
+const satelliteNauka = new Satellite(URIsatellite, 40075)
 const newYork = new City("New York", -74.006, 40.7128);
 const minsk = new City("Minsk", 27.5674, 53.893);
 
-await tracker.addSatellite(satellite,start,stop,satellite.calculatePositionOverTime(totalSeconds, timestepInSeconds, start));
-await tracker.addSatellite(satellite2,start,stop,satellite2.calculatePositionOverTime(totalSeconds, timestepInSeconds, start));
-// await tracker.addSatellite(satelliteNauka,start,stop,satelliteNauka.calculatePositionOverTime(totalSeconds, timestepInSeconds, start));
+initSatellites(satelliteZarya)
+initSatellites(satelliteLandsat9)
+initSatellites(satelliteNauka)
 tracker.addCity(newYork);
 tracker.addCity(minsk);
-
-console.log(tracker.entities);
-console.log(tracker.getEntityById(URIsatellite));
 
 satButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -53,7 +52,7 @@ satButtons.forEach((button) => {
     if(satelliteObj) {
         satelliteObj.added = !satelliteObj.added;
         console.log(satelliteObj);
-        tracker.toggleEntityVisibility(satelliteObj.id, !satelliteObj.added);
+        tracker.toggleEntityVisibility(satelliteObj.id, !satelliteObj.added, button);
     } 
   });
 });

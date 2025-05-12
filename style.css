@@ -4,7 +4,10 @@ ul {
 }
 
 li{
-  font-size: 1.4em;
+  font-size: 1.1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 button {
@@ -32,4 +35,5 @@ button:hover {
   border-radius: 10px;
   padding: 10px;
   opacity: 0.7;
+  font-size: 1.3em;
 }
