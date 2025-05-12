@@ -101,7 +101,6 @@ export default class SatelliteTracker {
 
     toggleEntityVisibility(satelliteId, isVisible, button) {
         const entity = this.getEntityById(satelliteId);
-        console.log(entity)
         if (entity) {
             entity.satellite.show = isVisible
             entity.area.show = isVisible
