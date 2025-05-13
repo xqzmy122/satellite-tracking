@@ -3,6 +3,8 @@ import SatelliteTracker from "./data/SatelliteTracker.js";
 import City from "./data/City.js";
 import satellitesInfo from "./data/satellitePanelInfo.js";
 import {timestepInSeconds, totalSeconds, start, stop} from './data/timeSetting.js'
+import { CallbackProperty } from "cesium";
+import checkAndUpdateSatellite from "./data/checkAndUpdateSatellite.js";
 
 const CESIUM_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjY4OGE0MS0xMmYxLTQwY2YtYTg4OC1kNDUxZmIyODU0NTYiLCJpZCI6Mjc4MzY3LCJpYXQiOjE3NDAzMDE3NzB9._w_PncfjQM56FZ69RBqUTHRu7iM4Iz7xU93cZjuRM_w";
@@ -21,13 +23,12 @@ const satellitesToInit = [
   { instance: new Satellite(URIsatellite, 40075), id: URIsatellite }
 ];
 
+const tracker = new SatelliteTracker(CESIUM_TOKEN, "cesiumContainer");
+await tracker.init();
+
 await Promise.all(satellitesToInit.map(sat => {
   initSatellites(sat.instance)
 }))
-
-
-const tracker = new SatelliteTracker(CESIUM_TOKEN, "cesiumContainer");
-await tracker.init();
 
 tracker.setupClock(start, stop);
 
@@ -52,4 +53,9 @@ satButtons.forEach((button) => {
   });
 });
 
-console.log(tracker.entities)
+async function runSatelliteUpdates() {
+  await checkAndUpdateSatellite(satellitesToInit)
+  setTimeout(runSatelliteUpdates, 1000)
+}
+
+runSatelliteUpdates()

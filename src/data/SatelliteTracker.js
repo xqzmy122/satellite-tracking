@@ -21,6 +21,7 @@ export default class SatelliteTracker {
         Cesium.Ion.defaultAccessToken = this.cesiumToken
         this.viewer = new Cesium.Viewer(this.containerId, {
             terrainProvider: await Cesium.createWorldTerrainAsync(),
+            requestRenderMode: true,
         });
 
         this.viewer.scene.globe.enableLighting = true
