@@ -55,7 +55,7 @@ satButtons.forEach((button) => {
 
 async function runSatelliteUpdates() {
   await checkAndUpdateSatellite(satellitesToInit)
-  setTimeout(runSatelliteUpdates, 1000)
+  setTimeout(runSatelliteUpdates, 100000)
 }
 
 runSatelliteUpdates()
